@@ -108,8 +108,11 @@ jobs:
             # Masuk ke folder project
             cd /home/${{ secrets.SERVER_USER }}/RPL2X-kelompok-6
 
+            # Konversi nama repo ke lowercase agar sesuai standar Docker
+            IMAGE_ID=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+
             # Pull image terbaru
-            docker pull ghcr.io/${{ github.repository }}:latest
+            docker pull ghcr.io/$IMAGE_ID:latest
 
             # Update container tanpa downtime besar
             docker compose up -d --remove-orphans
