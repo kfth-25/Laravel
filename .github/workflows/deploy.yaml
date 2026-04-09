@@ -108,8 +108,19 @@ jobs:
             # Masuk ke folder project
             cd /home/${{ secrets.SERVER_USER }}/RPL2X-kelompok-6
 
+            # Cek apakah folder project adalah repositori Git, jika bukan maka inisialisasi
+            if [ ! -d .git ]; then
+                echo "⚙️ Menginisialisasi Git di VPS..."
+                git init
+                git remote add origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+            fi
+
+            # Update remote URL agar selalu menggunakan token terbaru (untuk akses private repo)
+            git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+
             # Ambil update terbaru dari GitHub (termasuk docker-compose.yml)
-            git pull origin main
+            git fetch origin main
+            git reset --hard origin/main
 
             # Konversi nama repo ke lowercase agar sesuai standar Docker
             IMAGE_ID=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
