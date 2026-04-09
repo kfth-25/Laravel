@@ -128,7 +128,14 @@ jobs:
             # Pull image terbaru
             docker pull ghcr.io/$IMAGE_ID:latest
 
-            # Update container tanpa downtime besar
+            # Bersihkan port 8080 jika ada kontainer yang memakainya (mencegah 'port already allocated')
+            CONF_CONTAINER=$(docker ps -q --filter "publish=8080")
+            if [ ! -z "$CONF_CONTAINER" ]; then
+                echo "🛑 Memberhentikan kontainer yang memblokir port 8080..."
+                docker stop $CONF_CONTAINER && docker rm $CONF_CONTAINER
+            fi
+
+            # Update container baru
             docker compose up -d --remove-orphans
 
             # Tunggu container siap
