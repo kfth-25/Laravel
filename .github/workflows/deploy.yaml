@@ -108,6 +108,9 @@ jobs:
             # Masuk ke folder project
             cd /home/${{ secrets.SERVER_USER }}/RPL2X-kelompok-6
 
+            # Ambil update terbaru dari GitHub (termasuk docker-compose.yml)
+            git pull origin main
+
             # Konversi nama repo ke lowercase agar sesuai standar Docker
             IMAGE_ID=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
 
