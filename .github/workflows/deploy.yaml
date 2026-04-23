@@ -95,7 +95,7 @@ jobs:
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
+          password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
             set -e
@@ -128,10 +128,10 @@ jobs:
             # Pull image terbaru
             docker pull ghcr.io/$IMAGE_ID:latest
 
-            # Bersihkan port 8080 jika ada kontainer yang memakainya (mencegah 'port already allocated')
-            CONF_CONTAINER=$(docker ps -q --filter "publish=8080")
+            # Bersihkan port 8085 jika ada kontainer yang memakainya
+            CONF_CONTAINER=$(docker ps -q --filter "publish=8085")
             if [ ! -z "$CONF_CONTAINER" ]; then
-                echo "🛑 Memberhentikan kontainer yang memblokir port 8080..."
+                echo "🛑 Memberhentikan kontainer yang memblokir port 8085..."
                 docker stop $CONF_CONTAINER && docker rm $CONF_CONTAINER
             fi
 
