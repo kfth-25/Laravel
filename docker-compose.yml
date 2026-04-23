@@ -4,7 +4,7 @@ services:
     image: ghcr.io/kfth-25/laravel:latest
     build: .
     ports:
-      - "8085:80"
+      - "8086:80"
     environment:
       - APP_ENV=local
       - APP_KEY=${APP_KEY}
